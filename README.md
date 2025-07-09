@@ -7,7 +7,7 @@ cp env-example.list .env
 
 build and run all containers:
 ```
-docker compose up -d db pgadmin
+docker compose up -d
 ```
 
 link on pgAdmin:
