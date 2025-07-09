@@ -1,0 +1,9 @@
+# PostgreSQL параметры
+DB_USER=example_postgres
+DB_PASS=example_secret
+POSTGRES_PASSWORD=example_secret
+DB_NAME=example_mydb
+
+# pgAdmin авторизация
+PGADMIN_DEFAULT_EMAIL=example_admin@ex.com
+PGADMIN_DEFAULT_PASSWORD=example_pass

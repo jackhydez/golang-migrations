@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  pgadmin:
+    image: dpage/pgadmin4
+    env_file: .env
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  migrate:
+    image: migrate/migrate:v4.14.1
+    depends_on:
+      - db
+    networks:
+      - default
+    volumes:
+      - ./db/migrations:/migrations
+    entrypoint: >
+      -path=/migrations
+      -database=postgres://${DB_USER}:${DB_PASS}@db:5432/${DB_NAME}?sslmode=disable
+      up
